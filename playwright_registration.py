@@ -5,7 +5,7 @@ with sync_playwright() as playwright:
     browser = playwright.chromium.launch(headless=False)
     page = browser.new_page()
 
-    # Переходим на страницу входа
+    # Переходим на страницу регистрации
     page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
 
     # Заполняем поле email
@@ -20,12 +20,9 @@ with sync_playwright() as playwright:
     password_input = page.get_by_test_id('registration-form-password-input').locator('input')
     password_input.fill("password")
 
-    # Нажимаем на кнопку Login
+    # Нажимаем на кнопку registration
     login_button = page.get_by_test_id('registration-page-registration-button')
     login_button.click()
 
-    # Проверяем, что появилось сообщение об ошибке
+    # Проверяем, что отображается заголовок Dashboard
     expect(page.get_by_test_id('dashboard-toolbar-title-text')).to_have_text("Dashboard")
-
-    # Задержка для наглядности выполнения теста (не рекомендуется использовать в реальных автотестах)
-    page.wait_for_timeout(5000)
